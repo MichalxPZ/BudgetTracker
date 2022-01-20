@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<AnchorPane fx:controller="pl.poznan.put.michalxpz.budgettracker.controllers.ExpensesScreenController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="251.0" layoutY="166.0" prefHeight="90.0" prefWidth="121.0" text="Expenses" />
+      <JFXHamburger id="burgerButton" fx:id="burgerButton" layoutX="538.0" layoutY="14.0" prefHeight="60.0" prefWidth="79.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <JFXDrawer fx:id="drawerMenu" defaultDrawerSize="150.0" prefHeight="400.0" prefWidth="0.0" resizeContent="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>
