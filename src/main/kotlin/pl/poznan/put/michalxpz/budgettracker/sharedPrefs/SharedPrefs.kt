@@ -10,4 +10,6 @@ object SharedPrefs {
         surname = "surname",
         targetAmount = 0.0
     )
+
+    var balance: Double = 0.0
 }

@@ -1,13 +1,13 @@
 package pl.poznan.put.michalxpz.budgettracker.data
 
 import java.io.Serializable
-import java.util.*
+import java.time.LocalDate
 
 data class Income(
-    val amount: Int,
+    val amount: Double,
     val category: IncomeCategory,
     val sender: String,
-    val date: Date
+    val date: LocalDate
 ) : Serializable
 
 enum class IncomeCategory {

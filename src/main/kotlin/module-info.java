@@ -13,6 +13,8 @@ module pl.poznan.put.michalxpz.budgettracker {
 
     opens pl.poznan.put.michalxpz.budgettracker to javafx.fxml;
     opens pl.poznan.put.michalxpz.budgettracker.controllers to javafx.fxml;
+    opens pl.poznan.put.michalxpz.budgettracker.data to javafx.base;
+
     exports pl.poznan.put.michalxpz.budgettracker;
 
 }
