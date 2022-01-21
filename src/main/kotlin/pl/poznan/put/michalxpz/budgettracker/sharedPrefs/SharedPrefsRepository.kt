@@ -6,7 +6,7 @@ import pl.poznan.put.michalxpz.budgettracker.utils.FileDataSource
 import java.io.IOException
 
 class SharedPrefsRepository {
-    val path = "sharedPrefs.txt"
+    private val path = "sharedPrefs.txt"
 
     fun saveToFile(dataEntities: ArrayList<ApplicationData>) {
         try {
@@ -18,7 +18,7 @@ class SharedPrefsRepository {
     }
 
     fun readFromFile(): ArrayList<ApplicationData>? {
-        var entities: ArrayList<ApplicationData>? = null
+        var entities: ArrayList<ApplicationData>?
         try {
             val dataSource = FileDataSource<ApplicationData>(path)
              entities = dataSource.readFromFile()

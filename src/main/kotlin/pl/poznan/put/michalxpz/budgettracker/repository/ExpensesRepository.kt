@@ -6,7 +6,7 @@ import pl.poznan.put.michalxpz.budgettracker.utils.FileDataSource
 import java.io.IOException
 
 class ExpensesRepository {
-    val path = "expenses.txt"
+    private val path = "expenses.txt"
 
     fun saveToFile(dataEntities: ArrayList<Expense>) {
         try {

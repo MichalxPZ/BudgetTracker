@@ -1,6 +1,5 @@
 package pl.poznan.put.michalxpz.budgettracker.controllers
 
-import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXDrawer
 import com.jfoenix.controls.JFXHamburger
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition
@@ -27,15 +26,6 @@ class AppController : Initializable {
 
     @FXML
     private lateinit var burgerButton : JFXHamburger
-
-    @FXML
-    private lateinit var analysisButton: JFXButton
-    @FXML
-    private lateinit var expensesButton: JFXButton
-    @FXML
-    private lateinit var incomesButton: JFXButton
-    @FXML
-    private lateinit var homeButton: JFXButton
 
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {

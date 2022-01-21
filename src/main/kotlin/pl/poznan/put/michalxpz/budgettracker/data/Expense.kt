@@ -1,5 +1,6 @@
 package pl.poznan.put.michalxpz.budgettracker.data
 
+import java.io.Serializable
 import java.util.*
 
 data class Expense(
@@ -7,7 +8,7 @@ data class Expense(
     val category: ExpenseCategory,
     val receiver: String,
     val date: Date
-)
+) : Serializable
 
 enum class ExpenseCategory {
     UNDEFINED,

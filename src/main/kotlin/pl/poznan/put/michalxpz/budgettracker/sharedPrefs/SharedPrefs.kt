@@ -3,7 +3,7 @@ package pl.poznan.put.michalxpz.budgettracker.sharedPrefs
 import pl.poznan.put.michalxpz.budgettracker.data.ApplicationData
 
 object SharedPrefs {
-    val applicationData = ApplicationData(
+    var applicationData = ApplicationData(
         isDarkMode = false,
         lastSearch = ArrayList<String>(),
         name = "name",

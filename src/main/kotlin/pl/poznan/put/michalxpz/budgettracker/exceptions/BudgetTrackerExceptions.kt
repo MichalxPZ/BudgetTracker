@@ -8,9 +8,27 @@ class CannotSaveToFileException : BudgetTrackerExceptions() {
     }
 }
 
-class CannotReadFromFileException : BudgetTrackerExceptions() {
+class InvalidNameFormatException : BudgetTrackerExceptions() {
     override fun toString(): String {
-        return "Couldn't read array object from file"
+        return "Invalid format of Name field"
+    }
+}
+
+class InvalidSurnameFormatException : BudgetTrackerExceptions() {
+    override fun toString(): String {
+        return "Invalid format of Surname field"
+    }
+}
+
+class NegativeMoneyValueException : BudgetTrackerExceptions() {
+    override fun toString(): String {
+        return "Bet negative balance is not your goal :)"
+    }
+}
+
+class InvalidNumberFormatException : BudgetTrackerExceptions() {
+    override fun toString(): String {
+        return "Invalid format of money value field"
     }
 }
 

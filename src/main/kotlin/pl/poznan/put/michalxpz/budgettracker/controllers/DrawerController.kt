@@ -15,23 +15,23 @@ import java.util.*
 class DrawerController : Initializable{
 
     @FXML
-    lateinit var expensesButton: JFXButton
+    private lateinit var expensesButton: JFXButton
 
     @FXML
-    lateinit var incomesButton: JFXButton
+    private lateinit var incomesButton: JFXButton
 
     @FXML
-    lateinit var analysisButton: JFXButton
+    private lateinit var analysisButton: JFXButton
 
     @FXML
-    lateinit var homeButton: JFXButton
+    private lateinit var homeButton: JFXButton
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         setDrawerNavigationEvents()
     }
 
 
-    fun setDrawerNavigationEvents() {
+    private fun setDrawerNavigationEvents() {
         analysisButton.addEventHandler(ActionEvent.ACTION) { actionEvent ->
             val stage = (actionEvent.source as Node).scene.window as Stage
             setLoaderPath(stage, "analysis.fxml")
@@ -54,7 +54,7 @@ class DrawerController : Initializable{
         }
     }
 
-    fun setLoaderPath(stage: Stage, path: String) {
+    private fun setLoaderPath(stage: Stage, path: String) {
         val fxmlLoader = FXMLLoader(App::class.java.getResource(path))
         val scene = Scene(fxmlLoader.load(), 600.0, 600.0)
         stage.title = path.substringBefore(".")

@@ -17,10 +17,10 @@ import java.util.logging.Logger
 
 class ExpensesScreenController : Initializable {
     @FXML
-    lateinit var drawerMenu: JFXDrawer
+    private lateinit var drawerMenu: JFXDrawer
 
     @FXML
-    lateinit var burgerButton: JFXHamburger
+    private lateinit var burgerButton: JFXHamburger
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         setupDrawerMenu()
