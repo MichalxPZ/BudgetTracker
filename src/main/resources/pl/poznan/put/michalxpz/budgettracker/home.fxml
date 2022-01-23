@@ -50,7 +50,7 @@
             <Label fx:id="lastIncomesLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="385.0" text="Last 5 Incomes" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Label fx:id="" alignment="CENTER" layoutX="322.0" layoutY="248.0" prefHeight="35.0" prefWidth="156.0" text="Target % achieved" AnchorPane.leftAnchor="322.0" AnchorPane.rightAnchor="322.0" AnchorPane.topAnchor="248.0" />
+      <Label alignment="CENTER" layoutX="322.0" layoutY="248.0" prefHeight="35.0" prefWidth="156.0" text="Target % achieved" AnchorPane.leftAnchor="322.0" AnchorPane.rightAnchor="322.0" AnchorPane.topAnchor="248.0" />
       <Label fx:id="budgetLabel" alignment="CENTER" layoutX="288.0" layoutY="283.0" prefHeight="35.0" prefWidth="228.0" text="Budget" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="284.0" AnchorPane.topAnchor="283.0" />
       <Canvas fx:id="progressIndicatorCanvas" height="179.0" layoutX="310.0" layoutY="66.0" scaleX="-1.0" width="181.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="309.0" AnchorPane.topAnchor="66.0" />
       <Label fx:id="budgetPercentLabel" alignment="CENTER" layoutX="333.0" layoutY="143.0" prefHeight="24.0" prefWidth="137.0" text="Budget%%%" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="143.0" />

@@ -28,7 +28,7 @@
                     <children>
                         <Label text="Date [YYYY-MM-DD]" />
                         <Label text="Amount" GridPane.rowIndex="1" />
-                        <Label text="From" GridPane.rowIndex="2" />
+                        <Label text="To" GridPane.rowIndex="2" />
                         <Label text="Category" GridPane.rowIndex="3" />
                         <TextField fx:id="dateTextField" GridPane.columnIndex="1" />
                         <TextField fx:id="amountTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />

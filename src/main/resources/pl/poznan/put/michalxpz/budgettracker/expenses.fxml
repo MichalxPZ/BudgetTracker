@@ -20,7 +20,7 @@
             <TableColumn fx:id="expenseReceiverCol" maxWidth="173.0" minWidth="180.0" prefWidth="165.0" text="Receiver" />
         </columns>
       </TableView>
-       <JFXButton fx:id="addExpenseButton" layoutX="43.0" layoutY="105.0" prefHeight="29.0" prefWidth="61.0" text="Add" />
        <JFXDrawer fx:id="drawerMenu" defaultDrawerSize="150.0" prefHeight="400.0" prefWidth="0.0" resizeContent="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+       <JFXButton fx:id="addExpenseButton" layoutX="43.0" layoutY="105.0" prefHeight="29.0" prefWidth="61.0" text="Add" />
    </children>
 </AnchorPane>

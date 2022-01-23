@@ -29,7 +29,13 @@ class DrawerMenuInitializer(
             ) {
                 hamburgerTransition.rate *= -1
                 hamburgerTransition.play()
-                if (drawerMenu.isOpened) drawerMenu.close() else drawerMenu.open()
+                if (drawerMenu.isOpened) {
+                    drawerMenu.close()
+                    drawerMenu.toBack()
+                } else {
+                    drawerMenu.open()
+                    drawerMenu.toFront()
+                }
             }
         } catch (exception: IOException) {
             Logger.getLogger(AppController::class.java.name).log(Level.SEVERE, null, exception)
