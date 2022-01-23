@@ -26,8 +26,8 @@ Download the version, unzip it and run .bat file in the bin folder. You don't ne
 ### Maven
 For this method you must have Java 17 and Maven installed on your computer.
 1. Open terminal in project directory
-2. Run `./mvn clean install` (Linux/MacOS) or `mvn clean install` (Windows)
-3. Run `./mvn -f desktop/pom.xml javafx:run` (Linux/MacOS) or `mvn -f desktop/pom.xml javafx:run` (Windows)
+2. Run `mvn clean install` (Linux/MacOS) or `mvn clean install` (Windows)
+3. Run `mvn -f desktop/pom.xml javafx:run` (Linux/MacOS) or `mvn -f desktop/pom.xml javafx:run` (Windows)
 
 ## App description
 <a name="description"></a>
