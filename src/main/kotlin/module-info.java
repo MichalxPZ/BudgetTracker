@@ -6,7 +6,6 @@ module pl.poznan.put.michalxpz.budgettracker {
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
-    requires validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires com.jfoenix;
     requires java.logging;

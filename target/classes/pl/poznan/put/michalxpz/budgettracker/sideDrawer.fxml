@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.poznan.put.michalxpz.budgettracker.controllers.DrawerController">
+<VBox fx:id="vbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.poznan.put.michalxpz.budgettracker.controllers.DrawerController">
    <children>
       <JFXButton fx:id="homeButton" prefHeight="100.0" prefWidth="150.0" text="Home" />
       <JFXButton fx:id="incomesButton" prefHeight="100.0" prefWidth="150.0" text="Incomes" />

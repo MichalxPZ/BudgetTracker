@@ -1,33 +1,22 @@
-package pl.poznan.put.michalxpz.budgettracker.controllers
+package pl.poznan.put.michalxpz.budgettracker.initializers
 
 import com.jfoenix.controls.JFXDrawer
 import com.jfoenix.controls.JFXHamburger
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition
-import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
-import javafx.fxml.Initializable
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.VBox
 import pl.poznan.put.michalxpz.budgettracker.App
+import pl.poznan.put.michalxpz.budgettracker.controllers.AppController
 import java.io.IOException
-import java.net.URL
-import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class IncomesScreenContoller : Initializable {
-    @FXML
-    private lateinit var drawerMenu: JFXDrawer
-
-    @FXML
-    private lateinit var burgerButton: JFXHamburger
-
-    override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
-        setupDrawerMenu()
-
-    }
-
-    private fun setupDrawerMenu() {
+class DrawerMenuInitializer(
+    private val drawerMenu: JFXDrawer,
+    private val burgerButton: JFXHamburger
+) {
+    fun setupDrawerMenu() {
         try {
             val fxmlLoader = FXMLLoader(App::class.java.getResource("sideDrawer.fxml"))
             val box: VBox = fxmlLoader.load()
@@ -41,11 +30,10 @@ class IncomesScreenContoller : Initializable {
                 hamburgerTransition.rate *= -1
                 hamburgerTransition.play()
                 if (drawerMenu.isOpened) drawerMenu.close() else drawerMenu.open()
-
             }
-
         } catch (exception: IOException) {
             Logger.getLogger(AppController::class.java.name).log(Level.SEVERE, null, exception)
         }
     }
+
 }

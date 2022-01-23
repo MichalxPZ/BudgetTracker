@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="BudgetTracker" target="11" />
+      <module name="BudgetTracker" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

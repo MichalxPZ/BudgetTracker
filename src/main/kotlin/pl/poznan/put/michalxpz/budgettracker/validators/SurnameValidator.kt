@@ -4,7 +4,7 @@ import pl.poznan.put.michalxpz.budgettracker.exceptions.InvalidSurnameFormatExce
 
 class SurnameValidator {
     fun parseSurname(name: String): String {
-        if (!name.isEmpty() && name.matches("^[a-zA-Z]*$".toRegex())) {
+        if (name.isNotEmpty() && name.matches("^[a-zA-Z]*$".toRegex())) {
             return name
         } else throw InvalidSurnameFormatException()
     }

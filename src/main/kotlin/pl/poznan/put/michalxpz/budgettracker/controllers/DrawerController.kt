@@ -9,6 +9,7 @@ import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.stage.Stage
 import pl.poznan.put.michalxpz.budgettracker.App
+import pl.poznan.put.michalxpz.budgettracker.sharedPrefs.SharedPrefs
 import java.net.URL
 import java.util.*
 
@@ -56,10 +57,28 @@ class DrawerController : Initializable{
 
     private fun setLoaderPath(stage: Stage, path: String) {
         val fxmlLoader = FXMLLoader(App::class.java.getResource(path))
-        val scene = Scene(fxmlLoader.load(), 600.0, 600.0)
+        val scene = Scene(fxmlLoader.load(), 800.0, 600.0)
         stage.title = path.substringBefore(".")
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         stage.scene = scene
+        setStageSize(stage, 800.0, 600.0)
+        setStageCss(stage)
         stage.show()
+    }
+
+    private fun setStageCss(stage: Stage,) {
+        val css = if (!SharedPrefs.applicationData.isDarkMode) {
+            App::class.java.getResource("applicationLightColors.css")!!.toExternalForm()
+        } else {
+            App::class.java.getResource("applicationDarkColors.css")!!.toExternalForm()
+        }
+        stage.scene.stylesheets.add(css)
+    }
+
+    private fun setStageSize(stage: Stage, x: Double = 800.0, y: Double = 600.0) {
+        stage.minHeight =y
+        stage.minWidth = x
+        stage.maxHeight = y
+        stage.maxWidth = x
     }
 }

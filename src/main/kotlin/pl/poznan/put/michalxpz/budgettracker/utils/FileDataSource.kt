@@ -20,7 +20,7 @@ class FileDataSource<T>(path: String) {
     }
 
     fun readFromFile(): ArrayList<T>? {
-        var data: ArrayList<T>? = null
+        val data: ArrayList<T>?
         var reader: ObjectInputStream? = null
         try {
             val fileInputStream = FileInputStream(filePath)
@@ -29,6 +29,6 @@ class FileDataSource<T>(path: String) {
         } finally {
             reader?.close()
         }
-        return data;
+        return data
     }
 }

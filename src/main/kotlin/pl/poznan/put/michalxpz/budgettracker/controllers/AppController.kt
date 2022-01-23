@@ -2,47 +2,48 @@ package pl.poznan.put.michalxpz.budgettracker.controllers
 
 import com.jfoenix.controls.JFXDrawer
 import com.jfoenix.controls.JFXHamburger
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
+import javafx.geometry.Insets
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
+import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.input.MouseEvent
-import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.VBox
+import javafx.scene.layout.GridPane
+import javafx.scene.paint.Color
 import javafx.scene.shape.ArcType
-import pl.poznan.put.michalxpz.budgettracker.App
 import pl.poznan.put.michalxpz.budgettracker.data.Expense
 import pl.poznan.put.michalxpz.budgettracker.data.Income
+import pl.poznan.put.michalxpz.budgettracker.initializers.DrawerMenuInitializer
+import pl.poznan.put.michalxpz.budgettracker.initializers.SetupDialogInitializer
 import pl.poznan.put.michalxpz.budgettracker.repository.ExpensesRepository
 import pl.poznan.put.michalxpz.budgettracker.repository.IncomesRepository
 import pl.poznan.put.michalxpz.budgettracker.sharedPrefs.SharedPrefs
-import java.io.IOException
 import java.net.URL
 import java.time.LocalDate
 import java.util.*
-import java.util.logging.Level
-import java.util.logging.Logger
 import kotlin.math.roundToInt
 
 class AppController : Initializable {
 
     private val expenses = ArrayList<Expense>()
-    private  val incomes = ArrayList<Income>()
-    private lateinit var graphicsContext: GraphicsContext
+    private val incomes = ArrayList<Income>()
     private var targetPercentage: Double = 0.0
+    private lateinit var graphicsContext: GraphicsContext
 
     @FXML
-    private lateinit var rootPane: AnchorPane
+    private lateinit var gridPane: GridPane
+
     @FXML
     private lateinit var last5ExpensesTable: TableView<Expense>
+
     @FXML
     private lateinit var incomeSenderCol: TableColumn<Income, String>
+
     @FXML
     private lateinit var incomeAmountCol: TableColumn<Income, Double>
 
@@ -65,13 +66,13 @@ class AppController : Initializable {
     private lateinit var nameLabel: Label
 
     @FXML
-    private lateinit var anchorPane : AnchorPane
-
-    @FXML
     private lateinit var drawerMenu: JFXDrawer
 
     @FXML
     private lateinit var burgerButton : JFXHamburger
+
+    @FXML
+    private lateinit var settingsButton: Button
 
     @FXML
     private lateinit var progressIndicatorCanvas: Canvas
@@ -86,48 +87,17 @@ class AppController : Initializable {
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         setupDrawerMenu()
         loadExpensesAndIncomes()
+        calculateBalance()
         setupTables()
         setUpCanvas()
-    }
-
-    private fun setUpCanvas() {
-        targetPercentage = SharedPrefs.balance * 360 / SharedPrefs.applicationData.targetAmount
-        budgetLabel.text = "Your balance is: ${SharedPrefs.balance}"
-        graphicsContext = progressIndicatorCanvas.graphicsContext2D
-        graphicsContext.strokeArc(360.0, 0.0, 180.0, 160.0, 270.0, targetPercentage, ArcType.OPEN)
-        budgetPercentLabel.text = "${(SharedPrefs.balance/SharedPrefs.applicationData.targetAmount*100).roundToInt()}%"
-
-    }
-
-
-    fun setNameLabel(name: String?) {
-        if (!name.isNullOrEmpty()) {
-            nameLabel.text = "Wlecome, $name!\nWe're glad you manage your finances with us :)"
-        } else {
-            nameLabel.text = "..."
-        }
+        setNameLabel(SharedPrefs.applicationData.name)
+        setupGridPaneMargins()
+        setupSettingButtonAction()
     }
 
     private fun setupDrawerMenu() {
-        try {
-            val fxmlLoader = FXMLLoader(App::class.java.getResource("sideDrawer.fxml"))
-            val box: VBox = fxmlLoader.load()
-            drawerMenu.setSidePane(box)
-
-            val hamburgerTransition = HamburgerBackArrowBasicTransition(burgerButton)
-            hamburgerTransition.rate = -1.0
-            burgerButton.addEventHandler(
-                MouseEvent.MOUSE_PRESSED
-            ) {
-                hamburgerTransition.rate *= -1
-                hamburgerTransition.play()
-                if (drawerMenu.isOpened) drawerMenu.close() else drawerMenu.open()
-
-            }
-
-        } catch (exception: IOException) {
-            Logger.getLogger(AppController::class.java.name).log(Level.SEVERE, null, exception)
-        }
+        val drawerMenuInitializer = DrawerMenuInitializer(drawerMenu = drawerMenu, burgerButton = burgerButton)
+        drawerMenuInitializer.setupDrawerMenu()
     }
 
     private fun loadExpensesAndIncomes() {
@@ -135,12 +105,25 @@ class AppController : Initializable {
         val incomesRepository = IncomesRepository()
         expensesRepository.readFromFile()?.forEach { expense ->
             expenses.add(expense)
-            SharedPrefs.balance -= expense.amount
         }
         incomesRepository.readFromFile()?.forEach { income ->
             incomes.add(income)
-            SharedPrefs.balance += income.amount
         }
+    }
+
+    private fun setUpCanvas() {
+        targetPercentage = SharedPrefs.balance * 360 / SharedPrefs.applicationData.targetAmount
+        if (targetPercentage < 0) targetPercentage = 0.0
+        budgetLabel.text = "Your balance is: ${SharedPrefs.balance}"
+        graphicsContext = progressIndicatorCanvas.graphicsContext2D
+        graphicsContext.lineWidth = 2.0
+        graphicsContext.stroke = if (!SharedPrefs.applicationData.isDarkMode) {
+            Color.BLACK
+        } else {
+            Color.WHITE
+        }
+        graphicsContext.strokeArc(0.0, 0.0, 180.0, 160.0, 270.0, targetPercentage, ArcType.OPEN)
+        budgetPercentLabel.text = "${(SharedPrefs.balance/SharedPrefs.applicationData.targetAmount*100).roundToInt()}%"
     }
 
     private fun setupTables() {
@@ -158,7 +141,53 @@ class AppController : Initializable {
         incomes.take(5).forEach {
             last5IncomesTable.items.add(it)
         }
+    }
 
+    private fun calculateBalance() {
+        if (SharedPrefs.balance == 0.0) {
+            val expensesRepository = ExpensesRepository()
+            val incomesRepository = IncomesRepository()
+            expensesRepository.readFromFile()?.forEach { expense ->
+                SharedPrefs.balance -= expense.amount
+            }
+            incomesRepository.readFromFile()?.forEach { income ->
+                SharedPrefs.balance += income.amount
+            }
+        }
+    }
+
+    private fun setupSettingButtonAction() {
+        settingsButton.addEventHandler(ActionEvent.ACTION) {
+            progressIndicatorCanvas.graphicsContext2D.clearRect(
+                0.0,
+                0.0,
+                progressIndicatorCanvas.width,
+                progressIndicatorCanvas.height
+            )
+            openSetupDialog()
+            setNameLabel(SharedPrefs.applicationData.name)
+            calculateBalance()
+            setUpCanvas()
+        }
+    }
+
+    private fun openSetupDialog() {
+        val setupDialogInitializer = SetupDialogInitializer()
+        setupDialogInitializer.openSetupDialog()
+    }
+
+    private fun setNameLabel(name: String?) {
+        if (!name.isNullOrEmpty()) {
+            nameLabel.text = "Welcome, $name!\nWe're glad you manage your finances with us :)"
+        } else {
+            nameLabel.text = "..."
+        }
+    }
+
+    private fun setupGridPaneMargins() {
+        gridPane.hgap = 10.0
+        gridPane.vgap = 10.0
+        gridPane.padding = Insets(10.0, 10.0, 10.0, 10.0)
     }
 
 }

@@ -13,49 +13,48 @@ import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.util.Callback
 import pl.poznan.put.michalxpz.budgettracker.App
-import pl.poznan.put.michalxpz.budgettracker.data.Expense
-import pl.poznan.put.michalxpz.budgettracker.data.ExpenseCategory
+import pl.poznan.put.michalxpz.budgettracker.data.Income
+import pl.poznan.put.michalxpz.budgettracker.data.IncomeCategory
 import pl.poznan.put.michalxpz.budgettracker.initializers.DrawerMenuInitializer
-import pl.poznan.put.michalxpz.budgettracker.repository.ExpensesRepository
+import pl.poznan.put.michalxpz.budgettracker.repository.IncomesRepository
 import pl.poznan.put.michalxpz.budgettracker.sharedPrefs.SharedPrefs
 import java.net.URL
 import java.time.LocalDate
 import java.util.*
 
-class ExpensesScreenController : Initializable {
+class IncomeScreenContoller : Initializable {
 
-    private var expenses = ArrayList<Expense>()
+    private var incomes = ArrayList<Income>()
 
     @FXML
     private lateinit var drawerMenu: JFXDrawer
-
     @FXML
     private lateinit var burgerButton: JFXHamburger
 
     @FXML
-    private lateinit var expensesTable: TableView<Expense>
+    private lateinit var incomesTable: TableView<Income>
 
     @FXML
-    private lateinit var expenseReceiverCol: TableColumn<Expense, String>
+    private lateinit var incomeSenderCol: TableColumn<Income, String>
 
     @FXML
-    private lateinit var expenseCategoryCol: TableColumn<Expense, ExpenseCategory>
+    private lateinit var incomeCategoryCol: TableColumn<Income, IncomeCategory>
 
     @FXML
-    private lateinit var expenseAmountCol: TableColumn<Expense, Double>
+    private lateinit var incomeAmountCol: TableColumn<Income, Double>
 
     @FXML
-    private lateinit var expenseDateCol: TableColumn<Expense, LocalDate>
+    private lateinit var incomeDateCol: TableColumn<Income, LocalDate>
 
     @FXML
-    private lateinit var addExpenseButton: JFXButton
+    private lateinit var addIncomeButton: JFXButton
 
     @FXML
-    private var delCol: TableColumn<Expense, Void> = TableColumn<Expense, Void>()
+    private var delCol: TableColumn<Income, Void> = TableColumn<Income, Void>()
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         setupDrawerMenu()
-        loadExpenses()
+        loadIncome()
         setupTables()
         setupDeleteButton()
         setupAddButtonAction()
@@ -66,37 +65,38 @@ class ExpensesScreenController : Initializable {
         drawerMenuInitializer.setupDrawerMenu()
     }
 
-    private fun loadExpenses() {
-        val expensesRepository = ExpensesRepository()
+    private fun loadIncome() {
+        val incomesRepository = IncomesRepository()
 
-        expensesRepository.readFromFile()?.forEach { expense ->
-            expenses.add(expense)
+        incomesRepository.readFromFile()?.forEach { Income ->
+            incomes.add(Income)
         }
     }
 
-    private fun setupTables() {
-        expensesTable.items = FXCollections.observableList(ArrayList())
-        expenses = ArrayList()
-        loadExpenses()
-        expenseAmountCol.cellValueFactory = PropertyValueFactory("amount")
-        expenseReceiverCol.cellValueFactory = PropertyValueFactory("receiver")
-        expenseDateCol.cellValueFactory = PropertyValueFactory("date")
-        expenseCategoryCol.cellValueFactory = PropertyValueFactory("category")
 
-        expenses.forEach {
-            expensesTable.items.add(it)
+    private fun setupTables() {
+        incomesTable.items = FXCollections.observableList(ArrayList())
+        incomes = ArrayList()
+        loadIncome()
+        incomeAmountCol.cellValueFactory = PropertyValueFactory("amount")
+        incomeSenderCol.cellValueFactory = PropertyValueFactory("sender")
+        incomeDateCol.cellValueFactory = PropertyValueFactory("date")
+        incomeCategoryCol.cellValueFactory = PropertyValueFactory("category")
+
+        incomes.forEach {
+            incomesTable.items.add(it)
         }
     }
 
     private fun setupDeleteButton() {
-        val cellFactory: Callback<TableColumn<Expense?, Void?>?, TableCell<Expense?, Void?>?> =
-            Callback<TableColumn<Expense?, Void?>?, TableCell<Expense?, Void?>?> {
-                object : TableCell<Expense?, Void?>() {
+        val cellFactory: Callback<TableColumn<Income?, Void?>?, TableCell<Income?, Void?>?> =
+            Callback<TableColumn<Income?, Void?>?, TableCell<Income?, Void?>?> {
+                object : TableCell<Income?, Void?>() {
                     private val btn = Button("Remove")
 
                     init {
                         btn.onAction = EventHandler {
-                            val data: Expense = expensesTable.items[index]
+                            val data: Income = incomesTable.items[index]
                             deleteRow(data)
                         }
                     }
@@ -112,40 +112,40 @@ class ExpensesScreenController : Initializable {
                 }
             }
         delCol.cellFactory = cellFactory
-        expensesTable.columns.add(delCol)
+        incomesTable.columns.add(delCol)
     }
 
     private fun setupAddButtonAction() {
-        addExpenseButton.addEventHandler(ActionEvent.ACTION) {
-            openAddExpenseDialog()
+        addIncomeButton.addEventHandler(ActionEvent.ACTION) {
+            openAddIncomeDialog()
         }
     }
 
-    private fun openAddExpenseDialog() {
-        val fxmlLoader = FXMLLoader(App::class.java.getResource("addExpenseDialog.fxml"))
+    private fun openAddIncomeDialog() {
+        val fxmlLoader = FXMLLoader(App::class.java.getResource("addIncomeDialog.fxml"))
         val dialogPane = fxmlLoader.load<DialogPane>()
-        val dialogController = fxmlLoader.getController<AddExpenseController>()
+        val dialogController = fxmlLoader.getController<AddIncomeController>()
         val dialog = Dialog<ButtonType>()
         dialog.dialogPane = dialogPane
         dialog.title = dialogPane.headerText
         val clickedButton: Optional<ButtonType> = dialog.showAndWait()
         if (clickedButton.get() == ButtonType.OK) {
-            var status = dialogController.validateExpenseData()
+            var status = dialogController.validateIncomeData()
             while (status != "OK") {
                 dialog.headerText = status
                 dialog.showAndWait()
-                status = dialogController.validateExpenseData()
+                status = dialogController.validateIncomeData()
             }
-            dialogController.addExpense()
+            dialogController.addIncome()
             setupTables()
         }
     }
 
-    private fun deleteRow(data: Expense) {
-        expensesTable.items.remove(data)
-        expenses.remove(data)
-        val expensesRepository = ExpensesRepository()
-        SharedPrefs.balance += data.amount
-        expensesRepository.saveToFile(expenses)
+    private fun deleteRow(data: Income) {
+        incomesTable.items.remove(data)
+        incomes.remove(data)
+        val incomesRepository = IncomesRepository()
+        SharedPrefs.balance -= data.amount
+        incomesRepository.saveToFile(incomes)
     }
 }

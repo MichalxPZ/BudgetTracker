@@ -2,7 +2,6 @@ package pl.poznan.put.michalxpz.budgettracker.controllers
 
 import com.jfoenix.controls.JFXToggleButton
 import javafx.fxml.FXML
-import javafx.scene.control.DialogPane
 import javafx.scene.control.TextField
 import pl.poznan.put.michalxpz.budgettracker.data.ApplicationData
 import pl.poznan.put.michalxpz.budgettracker.exceptions.BudgetTrackerExceptions
@@ -15,38 +14,32 @@ import pl.poznan.put.michalxpz.budgettracker.validators.TargetAmountFieldValidat
 class StartupDialogController {
 
     @FXML
-    private lateinit var darkModeToggle: JFXToggleButton
+    lateinit var darkModeToggle: JFXToggleButton
 
     @FXML
-    private lateinit var targetAmountTextField: TextField
+    lateinit var targetAmountTextField: TextField
 
     @FXML
-    private lateinit var surnameTextField: TextField
+    lateinit var surnameTextField: TextField
 
     @FXML
-    private lateinit var nameTextField: TextField
-
-    @FXML
-    private lateinit var dialogPane: DialogPane
+    lateinit var nameTextField: TextField
 
     fun validateApplicationData(): String {
         var validationStatus = "OK"
-        try {
+        return try {
             val nameValidator = NameFieldValidator()
-            val name = nameValidator.parseName(nameTextField.text)
-
+            nameValidator.parseName(nameTextField.text)
             val surnameValidator = SurnameValidator()
-            val surname = surnameValidator.parseSurname(surnameTextField.text)
-
+            surnameValidator.parseSurname(surnameTextField.text)
             val targetAmountFieldValidator = TargetAmountFieldValidator()
-            val targetAmount = targetAmountFieldValidator.parseValue(targetAmountTextField.text)
-            val isDarkMode = darkModeToggle.isSelected
+            targetAmountFieldValidator.parseValue(targetAmountTextField.text)
 
-            return validationStatus
+            validationStatus
         } catch (exception: BudgetTrackerExceptions) {
             println(exception)
             validationStatus = exception.toString()
-            return validationStatus
+            validationStatus
         }
     }
 

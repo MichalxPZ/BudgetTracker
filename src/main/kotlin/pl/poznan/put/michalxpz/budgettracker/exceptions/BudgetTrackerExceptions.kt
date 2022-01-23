@@ -32,5 +32,10 @@ class InvalidNumberFormatException : BudgetTrackerExceptions() {
     }
 }
 
+class InvalidDateFormatException : BudgetTrackerExceptions() {
+    override fun toString(): String {
+        return "Invalid format of date value field"
+    }
+}
 
 
